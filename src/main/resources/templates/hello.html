@@ -2,14 +2,64 @@
 <head>
     <meta charset="UTF-8"/>
     <title>welcom ,gaozhaoxi</title>
+<!--
+    <script type="text/javascript" th:src="/static/js/jquery-3.3.1.js"/>
+    <script type="text/javascript" th:src="/static/js/json2.js"/>
+    -->
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+            testRequestBody();
+        });
+        function testRequestBody(){
+            var saveDataAry=[];
+            var name1=$(".name").val().trim();
+            var age1=$(".age").val().trim();
+            var address1=$(".address").val().trim();
+
+            var data1={name:name1,age:age1,address:address1};
+            $.ajax({
+                url:"${pageContext.request.contextPath}/save",
+                dataType:"json",
+                    type:"post",
+                contentType:"application/json",
+                data:data1,
+                success:function (result) {
+                    if(result.status){
+                        alert(result.data);
+                    }else{
+                        alert(result.msg);
+                    }
+            },
+                error:function(){
+                    alert("发生错误，请重试");
+                }
+            });
+        }
+    </script>
 </head>
 <body>
     <h1>JPA测试</h1>
     <div>
         <div>
+            <!--action的名称对应于@controller的同名方法-->
+            <form action="/save" enctype="multipart/form-data" method="post">
+                <label>输入姓名</label><input type="text" id="name"/>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                <label>输入年龄</label><input type="text" id="age"/>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                <label>输入地址</label><input type="text" id="address">
+                <input type="submit" value="上传"/>
+            </form>
+        </div>
+        <!--
+        <div>
             <label>输入姓名</label><input type="text" id="name"/>
             <label>输入年龄</label><input type="text" id="age"/>
             <label>输入地址</label><input type="text" id="address">
+            <input type="submit" value="上传"/>
         </div>
+        -->
     </div>
 </body>

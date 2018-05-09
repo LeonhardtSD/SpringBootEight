@@ -5,9 +5,8 @@ import com.gaozhaoxi.springbooteight.entity.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,9 +17,28 @@ import java.util.List;
 public class DataController {
     @Autowired
     PersonRespository personRespository;
+    //因为使用了RestController注解，所以方法（函数）返回值都是变成json，注入到responsebody中从而返回到客户端中进行解析，得到对象。
+/*
+    @RequestMapping("hello")
+    public String hello(){
+        return "hello";
+    }
+*/
+/*
+    @RequestMapping(value = "/save",method = RequestMethod.POST,consumes = "application/json;charset=UTF-8")
+    public Person save(@RequestBody Person p){
+        String name=p.getName();
+        Integer age=p.getAge();
+        String address=p.getAddress();
+        System.out.print(name+age.toString()+address);
 
-    @RequestMapping("/save")
-    public Person save(String name,String address,Integer age){
+        Person person=personRespository.save(new Person(null,name,age,address));
+        return person;
+    }*/
+
+    @RequestMapping(value = "/save",method = RequestMethod.POST)
+    public Person save(@RequestParam("name") String name, @RequestParam("address") String address, @RequestParam("age") Integer age){
+        System.out.print(name+age.toString()+address);
         Person person=personRespository.save(new Person(null,name,age,address));
         return person;
     }
