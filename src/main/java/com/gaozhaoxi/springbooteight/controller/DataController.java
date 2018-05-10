@@ -13,10 +13,10 @@ import java.util.List;
 /**
  * @author Leon
  */
-@RestController
+//@RestController
 public class DataController {
-    @Autowired
-    PersonRespository personRespository;
+//    @Autowired
+//    PersonRespository personRespository;
     //因为使用了RestController注解，所以方法（函数）返回值都是变成json，注入到responsebody中从而返回到客户端中进行解析，得到对象。
 /*
     @RequestMapping("hello")
@@ -36,6 +36,8 @@ public class DataController {
         return person;
     }*/
 
+
+/*
     @RequestMapping(value = "/save",method = RequestMethod.POST)
     public Person save(@RequestParam("name") String name, @RequestParam("address") String address, @RequestParam("age") Integer age){
         System.out.print(name+age.toString()+address);
@@ -51,7 +53,7 @@ public class DataController {
 
     @RequestMapping("/q2")
     public Person q2(String name,String address){
-        Person people=personRespository.findByNameAndAddress(name,address);
+        Person p eople=personRespository.findByNameAndAddress(name,address);
         return people;
     }
 
@@ -85,4 +87,5 @@ public class DataController {
     public List<Person> all(){
         return personRespository.findAll();
     }
+    */
 }

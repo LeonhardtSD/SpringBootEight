@@ -2,39 +2,54 @@
 <head>
     <meta charset="UTF-8"/>
     <title>welcom ,gaozhaoxi</title>
-<!--
-    <script type="text/javascript" th:src="/static/js/jquery-3.3.1.js"/>
-    <script type="text/javascript" th:src="/static/js/json2.js"/>
-    -->
+
+
+    <!--<script type="text/javascript" src="/static/js/jquery-3.3.1.js"/>-->
+    <!--<script type="text/javascript" src="/static/js/json2.js"/>-->
+
+    <!--thymeleaf的写法-->
+    <script th:src="@{/static/js/jquery-3.3.1.js}"></script>
+    <script th:src="@{/static/js/json2.js}"></script>
+
     <script type="text/javascript">
-
-        $(document).ready(function(){
+        // $(document).onload(function () {
+        //    testRequestBody();
+        // });
+        $(document).on('click','submit',function(){
             testRequestBody();
+           // window.location.href="/mysave";
         });
-        function testRequestBody(){
-            var saveDataAry=[];
-            var name1=$(".name").val().trim();
-            var age1=$(".age").val().trim();
-            var address1=$(".address").val().trim();
 
+        function testRequestBody(){
+            // var name2=document.getElementById("name");
+            // alert(name2.value);
+            //var saveDataAry=[];
+
+            var name1=$("#name").val().trim();
+            var age1=Number($("#age").val().trim());
+            var address1=$("#address").val().trim();
             var data1={name:name1,age:age1,address:address1};
             $.ajax({
-                url:"${pageContext.request.contextPath}/save",
+                url:"/save",
                 dataType:"json",
-                    type:"post",
+                    type:"POST",
                 contentType:"application/json",
-                data:data1,
-                success:function (result) {
-                    if(result.status){
-                        alert(result.data);
+               data:JSON.stringify(data1),
+                // data:data1,
+               //  data: $('#myform').serialize(),
+                success:function (data) {
+                    if(data.status){
+                        alert(data.data);
                     }else{
-                        alert(result.msg);
+                        alert(data.msg);
                     }
             },
                 error:function(){
                     alert("发生错误，请重试");
                 }
             });
+
+            window.location.href="/mysave";
         }
     </script>
 </head>
@@ -43,14 +58,14 @@
     <div>
         <div>
             <!--action的名称对应于@controller的同名方法-->
-            <form action="/save" enctype="multipart/form-data" method="post">
-                <label>输入姓名</label><input type="text" id="name"/>
+            <form name="myform" id="myform" th:action="@{/mysave}" enctype="multipart/form-data" method="post" onsubmit="return false">
+                <label>输入姓名</label><input type="text" name="name" id="name"/>
                 <span>&nbsp;&nbsp;&nbsp;</span>
                 <span>&nbsp;&nbsp;&nbsp;</span>
-                <label>输入年龄</label><input type="text" id="age"/>
+                <label>输入年龄</label><input type="text" name="age" id="age"/>
                 <span>&nbsp;&nbsp;&nbsp;</span>
-                <label>输入地址</label><input type="text" id="address">
-                <input type="submit" value="上传"/>
+                <label>输入地址</label><input type="text" name="address" id="address">
+                <input type="button" name="submit" id="submit" value="上传" onclick="testRequestBody()"/>
             </form>
         </div>
         <!--
